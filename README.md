@@ -1,16 +1,43 @@
-# React + Vite
+# Bravos — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Pequeña aplicación frontend para la demo de Bravos Burgers.
 
-Currently, two official plugins are available:
+Este repositorio contiene una aplicación React creada con Vite, estilos con Tailwind CSS + DaisyUI y enrutado cliente con React Router.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Si eres nuevo en el proyecto o vas a guiar a un desarrollador junior, comienza por leer la guía completa en `docs/DEVELOPER_GUIDE.md` y los comandos rápidos en `docs/quick_commands.md`.
 
-## React Compiler
+## Resumen rápido
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- Tecnologías: React, Vite, Tailwind CSS, DaisyUI, React Router
+- Tipo: SPA (Single Page Application) con rutas cliente
 
-## Expanding the ESLint configuration
+## Archivos importantes
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/main.jsx` — entrada de React
+- `src/App.jsx` — enrutamiento de la app
+- `src/pages/` — páginas por ruta (home, menu, login, etc.)
+- `src/components/` — componentes reutilizables por área
+- `index.html` — HTML raíz con el `div#root`
+
+## Cómo ejecutar (rápido)
+
+```bash
+npm install
+npm run dev
+```
+
+## Documentación interna
+
+- Guía para desarrolladores (detallada): `docs/DEVELOPER_GUIDE.md`
+- Comandos rápidos: `docs/quick_commands.md`
+
+## Despliegue
+
+El repositorio incluye `vercel.json` para que Vercel redirija todas las rutas al `index.html`, permitiendo que React Router maneje las rutas en el cliente. Configura en Vercel:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+
+## Contacto
+
+Si necesitas ayuda con este proyecto o quieres que prepare un PR con cambios de buenas prácticas (por ejemplo: usar `<Link>` en lugar de `<a>` para navegación interna), dímelo y lo preparo.
