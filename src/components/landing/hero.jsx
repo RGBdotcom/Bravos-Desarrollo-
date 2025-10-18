@@ -19,9 +19,9 @@ export default function Hero() {
                     Las mejores hamburguesas de la ciudad con ingredientes frescos y sabores únicos
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-lg text-lg transition-colors">
+                    <a href="/menu" className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-lg text-lg transition-colors">
                         Ver Menú
-                    </button>
+                    </a>
                     <a 
                         href="/login"
                         className="bg-transparent border-2 border-white hover:bg-white hover:text-black font-bold py-3 px-6 rounded-lg text-lg transition-colors inline-block"
