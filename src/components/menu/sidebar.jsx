@@ -71,7 +71,7 @@ export default function Sidebar() {
                                             <div className="flex-1">
                                                 <h3 className="font-semibold text-sm">{item.name}</h3>
                                                 <p className="text-xs text-gray-500">Cantidad: {item.cantidad}</p>
-                                                <p className="text-sm font-bold">${(item.price * item.cantidad).toFixed(2)}</p>
+                                                <p className="text-sm font-bold">S/{(item.price * item.cantidad).toFixed(2)}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@ export default function Sidebar() {
                             <div className="divider my-2"></div>
                             <div className="flex justify-between items-center text-lg font-bold">
                                 <span>Total:</span>
-                                <span>${total.toFixed(2)}</span>
+                                <span>S/{total.toFixed(2)}</span>
                             </div>
                             <ModalPago 
                                 carrito_items={carrito_items} 

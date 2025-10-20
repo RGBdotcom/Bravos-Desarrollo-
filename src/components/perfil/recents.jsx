@@ -103,7 +103,7 @@ export default function Recents() {
                                 </div>
 
                                 <div className="text-right">
-                                    <div className="text-xl font-bold text-primary">${pedido.precio}</div>
+                                    <div className="text-xl font-bold text-primary">S/{pedido.precio}</div>
                                     <div className="text-sm text-base-content/70">Total</div>
                                 </div>
                             </div>

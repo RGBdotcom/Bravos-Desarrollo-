@@ -58,13 +58,13 @@ export default function Pendings() {
                             <h2 className="text-lg font-semibold">{item.name}</h2>
                             <p className="text-sm text-gray-600">Cantidad: {item.cantidad}</p>
                           </div>
-                          <span className="text-md font-bold">${(item.price * item.cantidad).toFixed(2)}</span>
+                          <span className="text-md font-bold">S/{(item.price * item.cantidad).toFixed(2)}</span>
                         </div>
                       </div>
                     ))}
                     <div className="divider my-1"></div>
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-bold">Total: ${pedido.total.toFixed(2)}</span>
+                      <span className="text-lg font-bold">Total: S/{pedido.total.toFixed(2)}</span>
                       <button 
                         onClick={() => marcar_como_listo(pedido.id)}
                         className="btn btn-success btn-sm"
@@ -99,13 +99,13 @@ export default function Pendings() {
                               <h2 className="text-lg font-semibold">{item.name}</h2>
                               <p className="text-sm text-gray-600">Cantidad: {item.cantidad}</p>
                             </div>
-                            <span className="text-md font-bold">${(item.price * item.cantidad).toFixed(2)}</span>
+                            <span className="text-md font-bold">S/{(item.price * item.cantidad).toFixed(2)}</span>
                           </div>
                         </div>
                       ))}
                       <div className="divider my-1"></div>
                       <div className="flex justify-between items-center">
-                        <span className="text-lg font-bold">Total: ${pedido.total.toFixed(2)}</span>
+                        <span className="text-lg font-bold">Total: S/{pedido.total.toFixed(2)}</span>
                         <span className="text-sm text-gray-500">
                           {new Date(pedido.fecha).toLocaleDateString('es-ES')}
                         </span>
