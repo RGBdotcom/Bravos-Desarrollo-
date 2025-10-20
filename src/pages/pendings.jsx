@@ -1,38 +1,32 @@
 import NavbarPerfil from "../components/perfil/navbar"
 import { Hamburger } from "lucide-react"
+import { useState, useEffect } from "react"
+import { get_pedidos, actualizar_estado_pedido } from "../herramientas/usuario"
 
 export default function Pendings() {
-  const lista_pendientes = [
-    {
-      imagen: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-      nombre: "Hamburguesa Clásica",
-      descripcion: "Jugosa hamburguesa de res con queso cheddar, lechuga, tomate y cebolla en un pan brioche.",
-      precio: "S/ 10.00"
-    },
-    {
-      imagen: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-      nombre: "Hamburguesa BBQ Bacon",
-      descripcion: "Hamburguesa de res con tocino crujiente, queso cheddar, aros de cebolla y salsa BBQ en un pan de ajonjolí.",
-      precio: "S/ 10.00"
-    }
-  ]
+  const [pedidos_pendientes, set_pedidos_pendientes] = useState([])
+  const [pedidos_entregados, set_pedidos_entregados] = useState([])
 
-  const lista_entregados = [
-    {
-      imagen: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-      nombre: "Hamburguesa Clásica",
-      descripcion: "Jugosa hamburguesa de res con queso cheddar, lechuga, tomate y cebolla en un pan brioche.",
-      precio: "S/ 10.00",
-      estado: "Entregado"
-    },
-    {
-      imagen: "https://www.unileverfoodsolutions.com.co/dam/global-ufs/mcos/NOLA/calcmenu/recipes/col-recipies/fruco-tomate-cocineros/HAMBURGUESA%201200x709.png",
-      nombre: "Hamburguesa BBQ Bacon",
-      descripcion: "Hamburguesa de res con tocino crujiente, queso cheddar, aros de cebolla y salsa BBQ en un pan de ajonjolí.",
-      precio: "S/ 10.00",
-      estado: "En camino al domicilio"
-    }
-  ]
+  useEffect(() => {
+    cargar_pedidos()
+    
+    // Actualizar cada 2 segundos
+    const interval = setInterval(cargar_pedidos, 2000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const cargar_pedidos = async () => {
+    const todos_pedidos = await get_pedidos()
+    const pendientes = todos_pedidos.filter(p => p.estado === "en_preparacion")
+    const entregados = todos_pedidos.filter(p => p.estado === "entregado")
+    set_pedidos_pendientes(pendientes)
+    set_pedidos_entregados(entregados)
+  }
+
+  const marcar_como_listo = async (id) => {
+    await actualizar_estado_pedido({ id: id, nuevo_estado: "entregado" })
+    cargar_pedidos()
+  }
 
 
   return (
@@ -47,44 +41,78 @@ export default function Pendings() {
             </div>
             <h1 className="text-3xl font-bold">Pendientes</h1>
             <ul className="flex flex-col">
-              {lista_pendientes.map((item, index) => (
-                <li key={index} className="flex flex-row gap-5 my-5 p-3 border rounded-lg">
-                  <img src={item.imagen} alt={item.nombre} className="w-24 h-24 object-cover rounded-lg" />
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <h2 className="text-xl font-semibold">{item.nombre}</h2>
-                      <p className="text-gray-600">{item.descripcion}</p>
+              {pedidos_pendientes.length === 0 ? (
+                <p className="text-gray-500 my-5">No hay pedidos pendientes</p>
+              ) : (
+                pedidos_pendientes.map((pedido) => (
+                  <li key={pedido.id} className="flex flex-col gap-3 my-5 p-4 border rounded-lg bg-base-100 shadow">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm text-gray-500">Pedido #{pedido.id}</span>
+                      <span className="badge badge-warning">En preparación</span>
                     </div>
-                    <span className="text-lg font-bold">{item.precio}</span>
-                  </div>
-                </li>
-              ))}
+                    {pedido.items.map((item, idx) => (
+                      <div key={idx} className="flex flex-row gap-5">
+                        <img src={item.image_url} alt={item.name} className="w-20 h-20 object-cover rounded-lg" />
+                        <div className="flex flex-col justify-between flex-1">
+                          <div>
+                            <h2 className="text-lg font-semibold">{item.name}</h2>
+                            <p className="text-sm text-gray-600">Cantidad: {item.cantidad}</p>
+                          </div>
+                          <span className="text-md font-bold">${(item.price * item.cantidad).toFixed(2)}</span>
+                        </div>
+                      </div>
+                    ))}
+                    <div className="divider my-1"></div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-bold">Total: ${pedido.total.toFixed(2)}</span>
+                      <button 
+                        onClick={() => marcar_como_listo(pedido.id)}
+                        className="btn btn-success btn-sm"
+                      >
+                        Listo
+                      </button>
+                    </div>
+                  </li>
+                ))
+              )}
             </ul>
-            <button 
-              onClick={() => window.location.href = '/pay-out'}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-            >
-              Completar Orden
-            </button>
           </div>
         </div>
 
         <div className="flex flex-col gap-10 bg-secondary text-secondary-content w-full h-full p-8">
               <h1 className="text-4xl font-bold">Entregados</h1>
-              <ul className="flex flex-col gap-20">
-                {lista_entregados.map((item, index) => (
-                  <li key={index} className="flex flex-col lg:flex-row gap-5">
-                    <img src={item.imagen} alt={item.nombre} className="w-52 object-cover rounded-lg" />
-                    <div className="flex flex-col justify-between gap-2">
-                      <div>
-                        <h2 className="text-xl font-semibold">{item.nombre}</h2>
-                        <p className="">{item.descripcion}</p>
+              <ul className="flex flex-col gap-6">
+                {pedidos_entregados.length === 0 ? (
+                  <p className="text-secondary-content/70">No hay pedidos entregados</p>
+                ) : (
+                  pedidos_entregados.map((pedido) => (
+                    <li key={pedido.id} className="flex flex-col gap-3 p-4 bg-base-100 text-base-content rounded-lg shadow">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm text-gray-500">Pedido #{pedido.id}</span>
+                        <span className="badge badge-success">Entregado</span>
                       </div>
-                      <span className="text-lg font-bold">{item.precio}</span>
-                      <h2 className="badge">{item.estado}</h2>
-                    </div>
-                  </li>
-                ))}
+                      {pedido.items.map((item, idx) => (
+                        <div key={idx} className="flex flex-col lg:flex-row gap-5">
+                          <img src={item.image_url} alt={item.name} className="w-32 h-32 object-cover rounded-lg" />
+                          <div className="flex flex-col justify-between flex-1">
+                            <div>
+                              <h2 className="text-lg font-semibold">{item.name}</h2>
+                              <p className="text-sm text-gray-600">Cantidad: {item.cantidad}</p>
+                            </div>
+                            <span className="text-md font-bold">${(item.price * item.cantidad).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="divider my-1"></div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-lg font-bold">Total: ${pedido.total.toFixed(2)}</span>
+                        <span className="text-sm text-gray-500">
+                          {new Date(pedido.fecha).toLocaleDateString('es-ES')}
+                        </span>
+                      </div>
+                    </li>
+                  ))
+                )}
               </ul>
         </div>
       </section>

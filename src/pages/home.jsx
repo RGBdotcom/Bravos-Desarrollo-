@@ -1,5 +1,5 @@
 import Hero from "../components/landing/hero"
-import Comentarios from "../components/landing/comentarios"
+import Conceptos from "../components/landing/conceptos"
 import Footer from "../components/footer"
 import Navbar from "../components/navbar"
 
@@ -8,7 +8,7 @@ export default function Home() {
         <main>
             <Navbar />
             <Hero />
-            <Comentarios />
+            <Conceptos />
             <Footer />
         </main>
     )
