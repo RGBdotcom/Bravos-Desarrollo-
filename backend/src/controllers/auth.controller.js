@@ -32,6 +32,7 @@ export const register = async (req, res) => {
     });
 
     return res.json({
+      success: true,
       message: "Usuario registrado",
       user
     });
