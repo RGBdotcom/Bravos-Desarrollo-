@@ -1,12 +1,15 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import { sequelize } from './config/database.js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-dotenv.config();
+//paralogin y register
+import authRoutes from "./routes/auth.routes.js";
+
+//dotenv.config();
 
 // Para obtener __dirname en ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -17,6 +20,14 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+//apis de identificacion
+app.use("/api/auth", authRoutes);
+
+
+// Sincronizar modelos (solo al inicio)
+sequelize.sync().then(() => {
+  console.log("DB lista");
+});
 
 // Ruta de prueba
 app.get('/api/health', (req, res) => {
@@ -26,6 +37,9 @@ app.get('/api/health', (req, res) => {
 app.get("/", (req, res) => {
   res.send("✅ Servidor desplegado correctamente en Railway!");
 });
+
+
+
 
 // imagen de grafo
 app.get('/api/grafo', (req, res) => {
