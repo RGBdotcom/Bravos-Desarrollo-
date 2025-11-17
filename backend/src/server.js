@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+//import dotenv from 'dotenv';
 import { sequelize } from './config/database.js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 //paralogin y register
 import authRoutes from "./routes/auth.routes.js";
 
-dotenv.config();
+//dotenv.config();
 
 // Para obtener __dirname en ES modules
 const __filename = fileURLToPath(import.meta.url);
