@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { registrar_usuario } from "../herramientas/usuario"
+import { registrar_usuario } from "../herramientas/usuario_login"
 import { toast, Toaster } from "sonner"
 
 export default function Registrarse() {
@@ -31,7 +31,7 @@ export default function Registrarse() {
             nombre,
             email,
             password,
-            direccion: username // Usando username como dirección por ahora
+            username 
         })
 
         if (resultado.success) {

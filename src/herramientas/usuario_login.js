@@ -18,12 +18,12 @@ async function handleResponse(res) {
   return data;
 }
 
-export async function registrar_usuario({ nombre, email, password, direccion }) {
+export async function registrar_usuario({ nombre, email, password, username }) {
   try {
     const res = await fetch(`${API}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, email, password, direccion })
+      body: JSON.stringify({ nombre, email, password, username })
     });
 
     return await handleResponse(res);
